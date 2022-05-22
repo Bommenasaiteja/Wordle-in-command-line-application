@@ -10,6 +10,7 @@ class LangDict{
 
 	  List<String> words = Collections.emptyList();
 	LangDict(String file){
+	// In this constructor we convert the words.txt file to list (words) ..to perform operations on that list
 		try {
       this.words = Files.readAllLines(Paths.get(file), StandardCharsets.UTF_8);
     	} catch (IOException e) {
@@ -20,16 +21,20 @@ class LangDict{
 
 	public boolean contains(String word)
 	{
+		//this method will check whether the given string means word is avaliable in words list or not
+		//it return true if it is available,else it return false
 		return words.contains(word);
 	}
 
 	public String randomWord(){
+		//this method  return a random word from the words list
 		return words.get(new Random().nextInt(words.size()));
 	}
 }
 
 class WordleBoard{
-
+	//rowCount means number of chances of guessing ...i take 6 chance defaulty
+	//colCount means the length of the word ...i take length as 5 defaulty
 	private int rowCount;
 	private int colCount;
 	private ArrayList<String> guesses =new ArrayList<String>();
@@ -41,6 +46,7 @@ class WordleBoard{
 		this.colCount = 5;
 		this.wordBank =new LangDict(filePath);
 		this.answer =wordBank.randomWord();
+		//here answer is assigned to a random word in the words list
 	}
 
 	public int height(){
@@ -76,7 +82,7 @@ class WordleBoard{
 			if(str.length()==width() && wordBank.contains(str)){
 				guesses.add(str);
 			}
-		}
+	}
 }
 
 
@@ -94,10 +100,10 @@ class Display{
 		RED("\033[0;101m"),
 		GREEN("\033[0;102m"),
 		YELLOW("\033[0;103m"),
-    	BLUE("\033[0;104m"),
-    	PURPLE("\033[0;105m"),
-    	CYAN("\033[0;106m"),
-    	WHITE("\033[0;37m");
+    		BLUE("\033[0;104m"),
+    		PURPLE("\033[0;105m"),
+    		CYAN("\033[0;106m"),
+    		WHITE("\033[0;37m");
 
     	private final String ansi_background;
     	private final static String ANSI_RESET = "\u001B[0m";
@@ -194,14 +200,14 @@ public static void main(String[] args){
 
      
      WordleBoard board = new WordleBoard("/home/sjbommena/Desktop/WorldeProject/words.txt");
-
+//Words.txt is the file used for wordleBoard generation...it contains all the 5 letters words
 
     Scanner input = new Scanner(System.in);
-
+		//the loop will continue untill isGameOver is true
 		while(!board.isGameOver()){
 			Display.clear();
 			Display.print(board);
-
+			// i use the if block for debug purpose....u want to verifying the th application it will helpful 
 			if(DEBUG_MODE){
 				Display.printAnswer(board.getAnswer());
 			}
